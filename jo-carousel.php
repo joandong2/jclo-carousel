@@ -29,28 +29,31 @@ if ( !defined( 'ABSPATH' ) ) {
 
 class JO__SimpleCarousel
 {
+	public $plugin;
+
     function __construct() {
-        add_action( 'init', array( $this, 'custom_post_type_12221986' ) );
+		$this->plugin = plugin_basename( __FILE__ );
     }
 
+	function loader() {
+		require_once plugin_dir_path( __FILE__ ) . 'inc/activate.php';
+		require_once plugin_dir_path( __FILE__ ) . 'inc/deactivate.php';
+	}
+
 	function register() {
+        add_action( 'init', array( $this, 'custom_post_type_12221986' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_style' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_script' ) );
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 	}
 
-    function activate() {
-        flush_rewrite_rules();
-        $this->custom_post_type_12221986();
-		$this->load_dependencies();
-    }
 
-    function deactivate() {
-        flush_rewrite_rules();
-    }
+	function activate() {
+		JO__Activate::activate();
+	}
 
-	public function load_dependencies() {
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'partials/settings-page.php';
+	function deactivate() {
+		JO__Deactivate::deactivate();
 	}
 
     public function custom_post_type_12221986() {
@@ -113,7 +116,7 @@ class JO__SimpleCarousel
 	}
 
 	public function enqueue_script() {
-		// __FILE__ global representation of files
+		// __FILE__ global pre define location
 		wp_enqueue_script('bootstrap', plugins_url( '/assets/js/bootstrap.min.js', __FILE__ ), array('jquery'));
 		wp_enqueue_script('custom', plugins_url( '/assets/js/custom.css', __FILE__ ), array('jquery'));
 	}
@@ -126,20 +129,20 @@ class JO__SimpleCarousel
 			 'manage_options',
 			 'jclo-settings',
 			 array($this, 'settings_page') 
-			 //SettingsPage::settings_page()
 		 );
 	}
 
 	public function settings_page() {
-		echo '<h1>Hello po sa inyo!</h1>';
+		require_once plugin_dir_path( __FILE__ ) . 'inc/settings-page.php';
 	}
-
 }
 
 if ( class_exists( 'JO__SimpleCarousel' ) ) {
     $jo__SimpleCarousel = new JO__SimpleCarousel();
+	$jo__SimpleCarousel->loader();
 	$jo__SimpleCarousel->register();
 }
+
 
 // activation
 register_activation_hook( __FILE__, array( $jo__SimpleCarousel, 'activate' ) );

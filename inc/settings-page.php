@@ -12,16 +12,9 @@
  *
 */
 
-if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-    die;
-}
-
-class JO__SettingsPage {
-    public static function settings_page() {
-        echo 'hello world po!!!!!!';
+class JO__SettingsPage
+{
+    public static function settings_page_html() {
+        echo 'hello world';
     }
-}
-
-if ( class_exists( 'JO__SettingsPage' ) ) {
-    $jo__SettingsPage = new JO__SettingsPage();
 }
