@@ -42,11 +42,16 @@ class JO__SimpleCarousel
     function activate() {
         flush_rewrite_rules();
         $this->custom_post_type_12221986();
+		$this->load_dependencies();
     }
 
     function deactivate() {
         flush_rewrite_rules();
     }
+
+	public function load_dependencies() {
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'partials/settings-page.php';
+	}
 
     public function custom_post_type_12221986() {
         /*
@@ -71,7 +76,7 @@ class JO__SimpleCarousel
 		// Set other options for Custom Post Type
 		
 		$args = array(
-			'label'               => __( 'jo_carousel'),
+			'label'               => __( 'jclo_carousel'),
 			'description'         => __( 'Slick Carousel'),
 			'labels'              => $labels,
 			// Features this CPT supports in Post Editor
@@ -99,7 +104,7 @@ class JO__SimpleCarousel
 		);
  
 		// Registering your Custom Post Type
-		register_post_type( 'jo_carousel', $args );
+		register_post_type( 'jclo_carousel', $args );
     }
 
 	public function enqueue_style() {
@@ -115,17 +120,18 @@ class JO__SimpleCarousel
 
 	public function add_settings_page() {
 		add_submenu_page(
-			'edit.php?post_type=jo_carousel',
-			 __( 'Settings', 'jo-simple-carousel'),
-			 __( 'Settings', 'jo-simple-carousel'),
+			'edit.php?post_type=jclo_carousel',
+			 __( 'Settings', 'jclo-carousel'),
+			 __( 'Settings', 'jclo-carousel'),
 			 'manage_options',
-			 'jo-simple-carousel-settings',
-			 array($this, 'settings_page_html')
+			 'jclo-settings',
+			 array($this, 'settings_page') 
+			 //SettingsPage::settings_page()
 		 );
 	}
 
-	public function settings_page_html() {
-		echo '<h1>hello world</h1>';
+	public function settings_page() {
+		echo '<h1>Hello po sa inyo!</h1>';
 	}
 
 }
