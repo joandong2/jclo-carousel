@@ -33,6 +33,12 @@ class JO__SimpleCarousel
         add_action( 'init', array( $this, 'custom_post_type_12221986' ) );
     }
 
+	function register() {
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_style' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_script' ) );
+		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
+	}
+
     function activate() {
         flush_rewrite_rules();
         $this->custom_post_type_12221986();
@@ -96,10 +102,37 @@ class JO__SimpleCarousel
 		register_post_type( 'jo_carousel', $args );
     }
 
+	public function enqueue_style() {
+		wp_enqueue_style('bootstrap', plugins_url( '/assets/css/bootstrap.min.css', __FILE__ ));
+		wp_enqueue_style('custom', plugins_url( '/assets/css/custom.css', __FILE__ ));
+	}
+
+	public function enqueue_script() {
+		// __FILE__ global representation of files
+		wp_enqueue_script('bootstrap', plugins_url( '/assets/js/bootstrap.min.js', __FILE__ ), array('jquery'));
+		wp_enqueue_script('custom', plugins_url( '/assets/js/custom.css', __FILE__ ), array('jquery'));
+	}
+
+	public function add_settings_page() {
+		add_submenu_page(
+			'edit.php?post_type=jo_carousel',
+			 __( 'Settings', 'jo-simple-carousel'),
+			 __( 'Settings', 'jo-simple-carousel'),
+			 'manage_options',
+			 'jo-simple-carousel-settings',
+			 array($this, 'settings_page_html')
+		 );
+	}
+
+	public function settings_page_html() {
+		echo '<h1>hello world</h1>';
+	}
+
 }
 
 if ( class_exists( 'JO__SimpleCarousel' ) ) {
     $jo__SimpleCarousel = new JO__SimpleCarousel();
+	$jo__SimpleCarousel->register();
 }
 
 // activation
