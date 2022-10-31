@@ -12,9 +12,4 @@
  *
 */
 
-class JO__SettingsPage
-{
-    public static function settings_page_html() {
-        echo 'hello world';
-    }
-}
+echo '<h1>hello world po sa inyo!</h1>';
