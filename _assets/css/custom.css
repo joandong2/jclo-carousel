@@ -2,3 +2,33 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.jclo-images ul {
+  margin: 0;
+  padding: 0;
+}
+
+.jclo-images ul li .delete-img {
+  position: absolute;
+  right: 3px;
+  top: 2px;
+  background: aliceblue;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 20px;
+  color: red;
+}
+
+.jclo-images ul li {
+  width: 200px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+  position: relative;
+}
+
+.jclo-images ul li img {
+  width: 100%;
+  max-height: 250px;
+}
