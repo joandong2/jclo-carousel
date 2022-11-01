@@ -94,7 +94,7 @@ class Jclo_Carousel {
     function jclo_uploader_meta_box() {
         add_meta_box( 
             'jclo-images', 
-            'Carousel Images', 
+            'Carousel', 
             array ( $this, 'jclo_uploader_meta_box_function' ), 
             'jclo_carousel', 
             'normal', 
@@ -108,7 +108,6 @@ class Jclo_Carousel {
     }
 
     public static function jclo_images_field($name, $value = '') {
-        $image = '">Add Media';
         $image_str = '';
         $image_size = 'full';
         $value = explode(',', $value);
@@ -122,7 +121,7 @@ class Jclo_Carousel {
 
         }
     
-        return '<div class="jclo-images"><ul>' . $image_str . '</ul><a href="#" class="wc_multi_upload_image_button button' . $image . '</a><input type="hidden" class="attechments-ids ' . $name . '" name="' . $name . '" id="' . $name . '" value="' . esc_attr(implode(',', $value)) . '" /><a href="#" class="wc_multi_remove_image_button button" style="display:inline-block;">Remove media</a></div>';
+        return '<div class="jclo-images"><ul>' . $image_str . '</ul><a href="#" class="wc_multi_upload_image_button button">Add Media</a><input type="hidden" class="attechments-ids ' . $name . '" name="' . $name . '" id="' . $name . '" value="' . esc_attr(implode(',', $value)) . '" /><a href="#" class="wc_multi_remove_image_button button" style="display:inline-block;">Remove media</a></div>';
     }
     
     // Save Meta Box values.

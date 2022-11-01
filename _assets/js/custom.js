@@ -14,9 +14,9 @@ jQuery(function ($) {
             attachment_ids = new Array(), // ids of the selected images
             i = 0;
           attachments.each(function (attachment) {
-            console.log("attachment", attachment);
+            //console.log("attachment", attachment);
             attachment_ids[i] = attachment["id"];
-            attech_ids += "," + attachment["id"];
+            attech_ids += "," + attachment["id"]; // meta values
             if (attachment.attributes.type == "image") {
               $(button)
                 .siblings("ul")
