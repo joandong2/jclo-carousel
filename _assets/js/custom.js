@@ -11,12 +11,12 @@ jQuery(function ($) {
           attachments;
           // return attachments
           var attachments = jclo_uploader.state().get("selection"),
-            attachment_ids = new Array(), // ids of the selected images
+            attachment_ids = [], // ids of the selected images
             i = 0;
           attachments.each(function (attachment) {
             //console.log("attachment", attachment);
             attachment_ids[i] = attachment["id"];
-            attech_ids += "," + attachment["id"]; // meta values
+            attech_ids += "," + attachment["id"]; // meta
             if (attachment.attributes.type == "image") {
               $(button)
                 .siblings("ul")
@@ -67,7 +67,6 @@ jQuery(function ($) {
 
   $("body").on("click", ".jclo-images ul li i.delete-img", function () {
     var ids = [];
-    var this_c = $(this);
     $(this).parent().remove();
     $(".jclo-images ul li").each(function () {
       ids.push($(this).attr("data-attechment-id"));

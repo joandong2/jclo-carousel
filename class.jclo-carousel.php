@@ -15,8 +15,8 @@ class Jclo_Carousel {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_script') );
         add_action( 'init', array( $this, 'jclo_custom_post_type' ) );
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
-        add_action( 'add_meta_boxes', array( $this, 'jclo_uploader_meta_box' ) );
-        add_action( 'save_post', array( $this, 'jclo_meta_box_save' ) );
+        add_action( 'add_meta_boxes', array( $this, 'jclo_meta_boxes' ) );
+        add_action( 'save_post', array( $this, 'jclo_meta_boxes_save' ) );
 
     }
 
@@ -91,23 +91,36 @@ class Jclo_Carousel {
         require_once( JCLO__PLUGIN_DIR. '_views/settings-page.php' );
     }
 
-    function jclo_uploader_meta_box() {
+    function jclo_meta_boxes() {
         add_meta_box( 
             'jclo-images', 
             'Carousel', 
-            array ( $this, 'jclo_uploader_meta_box_function' ), 
+            array ( $this, 'jclo_meta_box_function' ), 
             'jclo_carousel', 
             'normal', 
             'high' 
         );
     }
 
-    function jclo_uploader_meta_box_function($post) {
+    function jclo_meta_box_function($post) {
         $jclo_images = get_post_meta($post->ID, 'jclo-images', true);
-        echo self::jclo_images_field( 'jclo-images', $jclo_images ); 
+        $jclo_slides_to_show = get_post_meta($post->ID, 'jclo-slides-to-show', true);
+        $jclo_slides_dots = get_post_meta($post->ID, 'jclo-slides-dots', true);
+        $jclo_slides_autoplay = get_post_meta($post->ID, 'jclo-slides-autoplay', true);
+        echo self::jclo_fields( 'jclo-images', $jclo_images ); 
+
+        // other fields
+        ?>
+        <div class="form-group">
+            <label for="jclo-slides-to-show">No of slides</label>
+            <input class="form-control" type="number" value="<?php echo $jclo_slides_to_show ? $jclo_slides_to_show : '' ?>" name="jclo-slides-to-show" id="jclo-slides-to-show"/>
+        </div>
+        
+        <?php
     }
 
-    public static function jclo_images_field($name, $value = '') {
+    // image fields
+    public static function jclo_fields($name, $value = '') {
         $image_str = '';
         $image_size = 'full';
         $value = explode(',', $value);
@@ -118,14 +131,13 @@ class Jclo_Carousel {
                     $image_str .= '<li data-attechment-id=' . $values . '><a href="' . $image_attributes[0] . '" target="_blank"><img src="' . $image_attributes[0] . '" /></a><i class="dashicons dashicons-no delete-img"></i></li>';
                 }
             }
-
         }
     
         return '<div class="jclo-images"><ul>' . $image_str . '</ul><a href="#" class="wc_multi_upload_image_button button">Add Media</a><input type="hidden" class="attechments-ids ' . $name . '" name="' . $name . '" id="' . $name . '" value="' . esc_attr(implode(',', $value)) . '" /><a href="#" class="wc_multi_remove_image_button button" style="display:inline-block;">Remove media</a></div>';
     }
     
     // Save Meta Box values.
-    function jclo_meta_box_save( $post_id ) {
+    function jclo_meta_boxes_save( $post_id ) {
         if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
             return; 
         }
@@ -134,8 +146,9 @@ class Jclo_Carousel {
             return; 
         }
         
-        if( isset( $_POST['jclo-images'] ) ){
+        if( isset( $_POST['jclo-images'] ) || isset( $_POST['jclo-slides-to-show'] )){
             update_post_meta( $post_id, 'jclo-images', $_POST['jclo-images'] );
+            update_post_meta( $post_id, 'jclo-slides-to-show', $_POST['jclo-slides-to-show'] );
         }
     }
 }
