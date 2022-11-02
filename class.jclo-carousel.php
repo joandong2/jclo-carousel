@@ -11,15 +11,18 @@ class Jclo_Carousel {
     }
     
     public function jclo_init() {
+        $post_type = 'jclo_carousel';
+
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_style') );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_script') );
         add_action( 'init', array( $this, 'jclo_custom_post_type' ) );
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
         add_action( 'add_meta_boxes', array( $this, 'jclo_meta_boxes' ) );
         add_action( 'save_post', array( $this, 'jclo_meta_boxes_save' ) );
-
+        add_filter( 'manage_' . $post_type . '_posts_columns',  array( $this, 'jclo_add_new_columns' ) );
+        add_action( 'manage_' . $post_type . '_posts_custom_column' , array( $this, 'jclo_new_columns_func'));
     }
-//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css
+
     function enqueue_style() {
 		wp_enqueue_style( 'bootstrap', plugins_url( '/_assets/css/bootstrap.min.css', __FILE__ ) );
 		wp_enqueue_style( 'slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css' );
@@ -56,7 +59,8 @@ class Jclo_Carousel {
 			'label'               => __( 'jclo_carousel'),
 			'description'         => __( 'Slick Carousel'),
 			'labels'              => $labels,
-			'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
+			'supports'            => array( 'title', 'author', 'revisions' ),
+			//'supports'            => array( 'title', 'author', 'revisions', 'custom-fields', ),
 			'taxonomies'          => array( 'genres' ),
 			'hierarchical'        => false,
 			'public'              => true,
@@ -78,6 +82,21 @@ class Jclo_Carousel {
 		register_post_type( 'jclo_carousel', $args );
     }
 
+    public function jclo_add_new_columns( $columns ) {
+        $offset = array_search('author', array_keys($columns));
+	return array_merge(array_slice($columns, 0, $offset), ['jclo_shortcode' => __('Shortcode', 'textdomain')], array_slice($columns, $offset, null));
+    }
+
+    public function jclo_new_columns_func( $column, $post_id ) {
+        switch ( $column == 'jclo_shortcode' ) {
+
+            case 'shortcode' :
+                echo $post_id->ID;
+                break;
+    
+        }
+    }
+
     public function add_settings_page() {
 		add_submenu_page(
 			'edit.php?post_type=jclo_carousel',
@@ -95,6 +114,15 @@ class Jclo_Carousel {
 
     function jclo_meta_boxes() {
         add_meta_box( 
+            'jclo-shortcode-area', 
+            'Shortcode', 
+            array ( $this, 'jclo_shortcode_area_function' ), 
+            'jclo_carousel', 
+            'side', 
+            'low' 
+        );
+
+        add_meta_box( 
             'jclo-images', 
             'Carousel', 
             array ( $this, 'jclo_meta_box_function' ), 
@@ -102,6 +130,10 @@ class Jclo_Carousel {
             'normal', 
             'high' 
         );
+    }
+
+    function jclo_shortcode_area_function($post) {
+        echo '[jclo-carousel id="'. $post->ID .'"]';
     }
 
     function jclo_meta_box_function($post) {
