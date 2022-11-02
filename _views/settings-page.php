@@ -13,10 +13,3 @@
 */
 
 echo '<h1>hello world po sa inyo!</h1>';
-
-
-// <div class="your-class">
-//   <div>your content</div>
-//   <div>your content</div>
-//   <div>your content</div>
-// </div>

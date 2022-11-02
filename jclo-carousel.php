@@ -32,6 +32,7 @@ define( 'JCLO_VERSION', '1.0.0' );
 define( 'JCLO__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 require_once( JCLO__PLUGIN_DIR . 'class.jclo-carousel.php' );
+require_once( JCLO__PLUGIN_DIR . '_views/shortcodes.php' );
 
 register_activation_hook( __FILE__, array( 'Jclo_Carousel', 'plugin_activation' ) );
 register_deactivation_hook( __FILE__, array( 'Jclo_Carousel', 'plugin_deactivation' ) );

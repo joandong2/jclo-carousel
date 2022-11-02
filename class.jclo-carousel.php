@@ -11,6 +11,8 @@ class Jclo_Carousel {
     }
     
     public function jclo_init() {
+        $post_type = 'jclo_carousel';
+
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_style') );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_script') );
         add_action( 'init', array( $this, 'jclo_custom_post_type' ) );
@@ -18,8 +20,10 @@ class Jclo_Carousel {
         add_action( 'add_meta_boxes', array( $this, 'jclo_meta_boxes' ) );
         add_action( 'save_post', array( $this, 'jclo_meta_boxes_save' ) );
 
+        add_filter( 'manage_' . $post_type . '_posts_columns', array( $this, 'jclo_shortcode_columns' ) );
+        add_action( 'manage_' . $post_type . '_posts_custom_column' , array( $this, 'jclo_shortcode_column' ), 10, 2 );
     }
-//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css
+
     function enqueue_style() {
 		wp_enqueue_style( 'bootstrap', plugins_url( '/_assets/css/bootstrap.min.css', __FILE__ ) );
 		wp_enqueue_style( 'slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css' );
@@ -78,6 +82,21 @@ class Jclo_Carousel {
 		register_post_type( 'jclo_carousel', $args );
     }
 
+    public function jclo_shortcode_columns( $columns ) {
+        # Insert at offset 2
+        $offset = 2;
+        $newArray = array_slice($columns, 0, $offset, true) +
+                array('shortcode' => 'Shortcode') +
+                array_slice($columns, $offset, NULL, true);
+        return $newArray;  
+    }
+
+    public function jclo_shortcode_column( $column, $post_id ) {
+        if( $column == 'shortcode' ) {
+            echo '<code>[jclo-carousel id='. $post_id .']</code>';
+        }
+    } 
+
     public function add_settings_page() {
 		add_submenu_page(
 			'edit.php?post_type=jclo_carousel',
@@ -108,7 +127,7 @@ class Jclo_Carousel {
             'Shortcode', 
             function($post) {
                 //var_dump($post);
-                echo '[jclo-carouseld id'. $post->ID .']';
+                echo '<code>[jclo-carousel id='. $post->ID .']</code>';
             }, 
             'jclo_carousel', 
             'side', 
