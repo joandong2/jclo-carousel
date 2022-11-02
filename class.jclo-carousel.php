@@ -13,8 +13,8 @@ class Jclo_Carousel {
     public function jclo_init() {
         $post_type = 'jclo_carousel';
 
-        add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_style') );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_script') );
+        add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scipts') );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts') );
         add_action( 'init', array( $this, 'jclo_custom_post_type' ) );
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
         add_action( 'add_meta_boxes', array( $this, 'jclo_meta_boxes' ) );
@@ -24,19 +24,17 @@ class Jclo_Carousel {
         add_action( 'manage_' . $post_type . '_posts_custom_column' , array( $this, 'jclo_shortcode_column' ), 10, 2 );
     }
 
-    function enqueue_style() {
-		wp_enqueue_style( 'bootstrap', plugins_url( '/_assets/css/bootstrap.min.css', __FILE__ ) );
-        if(!is_admin()) {
-		    wp_enqueue_style( 'slick', 'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css' );
-        }
-		wp_enqueue_style( 'custom', plugins_url( '/_assets/css/custom.css', __FILE__ ) );
+    function enqueue_scipts() {
+		wp_enqueue_style( 'slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css' );
+
+        wp_enqueue_script( 'slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js' , array( 'jquery' ), JCLO_VERSION, '' );
 	}
 
-	function enqueue_script() {
+	function admin_enqueue_scripts() {
+		wp_enqueue_style( 'bootstrap', plugins_url( '/_assets/css/bootstrap.min.css', __FILE__ ) );
+		wp_enqueue_style( 'custom', plugins_url( '/_assets/css/custom.css', __FILE__ ) );
+
 		wp_enqueue_script( 'bootstrap', plugins_url( '/_assets/js/bootstrap.min.js', __FILE__ ) , array( 'jquery' ), JCLO_VERSION, '' );
-        if(!is_admin()) {
-		    wp_enqueue_script( 'slick', 'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js' , array( 'jquery' ), JCLO_VERSION, '' );
-        }
 		wp_enqueue_script( 'custom', plugins_url( '/_assets/js/custom.js', __FILE__ ), array( 'jquery' ), JCLO_VERSION, '' );
 	}
     
@@ -97,7 +95,7 @@ class Jclo_Carousel {
 
     public function jclo_shortcode_column( $column, $post_id ) {
         if( $column == 'shortcode' ) {
-            echo '<code>[jclo-carousel id='. $post_id .']</code>';
+            echo '<code>[jclo-carouseld id='. $post_id .']</code>';
         }
     } 
 
@@ -131,7 +129,7 @@ class Jclo_Carousel {
             'Shortcode', 
             function($post) {
                 //var_dump($post);
-                echo '<code>[jclo-carousel id='. $post->ID .']</code>';
+                echo '<code>[jclo-carouseld id='. $post->ID .']</code>';
             }, 
             'jclo_carousel', 
             'side', 

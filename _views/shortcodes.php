@@ -44,17 +44,17 @@ class Jclo_Carousel_Shortcode {
 
         ?>
 
-        <!-- <script type="text/javascript">
+        <script type="text/javascript">
             jQuery(document).ready(function($){
-                $('#jclo-carousel-'+<?php echo $post->ID ?>).slick({
+                $('.jclo-carousel-'+<?php echo $post->ID ?>).slick({
                     autoplay: <?php echo $jclo_slides_autoplay; ?>,
                     dots: <?php echo $jclo_slides_dots; ?>,
                     infinite: true,
                     speed: 300,
-                    slidesToShow: <?php echo $jclo_slides_to_show; ?>,
+                    slidesToShow: 2,
                 });
             });
-        </script> -->
+        </script>
 
         <?php
         return $image_str;

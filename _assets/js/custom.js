@@ -73,10 +73,4 @@ jQuery(function ($) {
     });
     $(".jclo-images").find('input[type="hidden"]').attr("value", ids);
   });
-
-  $(".jclo-carousel-121").slick({
-    infinite: true,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-  });
 });
