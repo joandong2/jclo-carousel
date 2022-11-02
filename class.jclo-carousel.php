@@ -19,14 +19,16 @@ class Jclo_Carousel {
         add_action( 'save_post', array( $this, 'jclo_meta_boxes_save' ) );
 
     }
-
+//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css
     function enqueue_style() {
 		wp_enqueue_style( 'bootstrap', plugins_url( '/_assets/css/bootstrap.min.css', __FILE__ ) );
+		wp_enqueue_style( 'slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css' );
 		wp_enqueue_style( 'custom', plugins_url( '/_assets/css/custom.css', __FILE__ ) );
 	}
 
 	function enqueue_script() {
 		wp_enqueue_script( 'bootstrap', plugins_url( '/_assets/js/bootstrap.min.js', __FILE__ ) , array( 'jquery' ), JCLO_VERSION, '' );
+		wp_enqueue_script( 'slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js' , array( 'jquery' ), JCLO_VERSION, '' );
 		wp_enqueue_script( 'custom', plugins_url( '/_assets/js/custom.js', __FILE__ ), array( 'jquery' ), JCLO_VERSION, '' );
 	}
     
@@ -115,6 +117,20 @@ class Jclo_Carousel {
             <label for="jclo-slides-to-show">No of slides</label>
             <input class="form-control" type="number" value="<?php echo $jclo_slides_to_show ? $jclo_slides_to_show : '' ?>" name="jclo-slides-to-show" id="jclo-slides-to-show"/>
         </div>
+        <div class="form-group">
+            <label for="jclo-slides-autoplay">Show dot navigation</label>
+            <select class="form-select" name="jclo-slides-autoplay" id="jclo-slides-autoplay" aria-label="Disabled select example">
+                <option value="true" <?php echo $jclo_slides_autoplay === 'true' ? 'selected' : '' ?>>True</option>
+                <option value="false" <?php echo $jclo_slides_autoplay === 'false' ? 'selected' : '' ?>>False</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="jclo-slides-dots">Show dot navigation</label>
+            <select class="form-select" name="jclo-slides-dots" id="jclo-slides-dots" aria-label="Disabled select example">
+                <option value="true" <?php echo $jclo_slides_dots === 'true' ? 'selected' : '' ?>>True</option>
+                <option value="false" <?php echo $jclo_slides_dots === 'false' ? 'selected' : '' ?>>False</option>
+            </select>
+        </div>
         
         <?php
     }
@@ -146,9 +162,11 @@ class Jclo_Carousel {
             return; 
         }
         
-        if( isset( $_POST['jclo-images'] ) || isset( $_POST['jclo-slides-to-show'] )){
+        if( isset( $_POST['jclo-images'] ) || isset( $_POST['jclo-slides-to-show'] ) || isset( $_POST['jclo-slides-dots'] ) || isset( $_POST['jclo-slides-autoplay'] ) ){
             update_post_meta( $post_id, 'jclo-images', $_POST['jclo-images'] );
             update_post_meta( $post_id, 'jclo-slides-to-show', $_POST['jclo-slides-to-show'] );
+            update_post_meta( $post_id, 'jclo-slides-dots', $_POST['jclo-slides-dots'] );
+            update_post_meta( $post_id, 'jclo-slides-autoplay', $_POST['jclo-slides-autoplay'] );
         }
     }
 }
