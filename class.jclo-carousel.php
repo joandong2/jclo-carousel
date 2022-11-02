@@ -26,13 +26,17 @@ class Jclo_Carousel {
 
     function enqueue_style() {
 		wp_enqueue_style( 'bootstrap', plugins_url( '/_assets/css/bootstrap.min.css', __FILE__ ) );
-		wp_enqueue_style( 'slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css' );
+        if(!is_admin()) {
+		    wp_enqueue_style( 'slick', 'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css' );
+        }
 		wp_enqueue_style( 'custom', plugins_url( '/_assets/css/custom.css', __FILE__ ) );
 	}
 
 	function enqueue_script() {
 		wp_enqueue_script( 'bootstrap', plugins_url( '/_assets/js/bootstrap.min.js', __FILE__ ) , array( 'jquery' ), JCLO_VERSION, '' );
-		wp_enqueue_script( 'slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js' , array( 'jquery' ), JCLO_VERSION, '' );
+        if(!is_admin()) {
+		    wp_enqueue_script( 'slick', 'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js' , array( 'jquery' ), JCLO_VERSION, '' );
+        }
 		wp_enqueue_script( 'custom', plugins_url( '/_assets/js/custom.js', __FILE__ ), array( 'jquery' ), JCLO_VERSION, '' );
 	}
     
