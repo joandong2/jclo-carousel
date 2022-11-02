@@ -51,7 +51,7 @@ class Jclo_Carousel_Shortcode {
                     dots: <?php echo $jclo_slides_dots; ?>,
                     infinite: true,
                     speed: 300,
-                    slidesToShow: 2,
+                    slidesToShow: <?php echo $jclo_slides_to_show; ?>,
                 });
             });
         </script>

@@ -32,3 +32,11 @@ body {
   width: 100%;
   max-height: 133px;
 }
+
+.slick-track {
+  display: flex !important;
+}
+
+.slick-slide {
+  height: inherit !important;
+}
