@@ -1,7 +1,8 @@
 .slick-slide {
   height: auto;
   /* max-height: 274px; */
-  margin-right: 10px;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 
 .slick-track {
