@@ -35,8 +35,8 @@ class Jclo_Carousel_Shortcode {
         if (!empty($images)) {
             $image_str .= '<div class="jclo-carousel-'. $post->ID .'">';
             foreach ($images as $image) {
-                if ($image_attributes = wp_get_attachment_image_src($image, 'full')) {
-                    $image_str .= '<div><img src="' . $image_attributes[0] . '" /></div>';
+                if ($image_attributes = wp_get_attachment_image_src($image, 'thumbnamil')) {
+                    $image_str .= '<img src="' . $image_attributes[0] . '" />';
                 }
             }
             $image_str .= '</div>';
@@ -51,8 +51,9 @@ class Jclo_Carousel_Shortcode {
                     dots: <?php echo $jclo_slides_dots; ?>,
                     infinite: true,
                     speed: 300,
+                    adaptiveHeight: true,
                     slidesToShow: <?php echo $jclo_slides_to_show; ?>,
-                });
+                })
             });
         </script>
 

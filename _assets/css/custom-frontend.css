@@ -1,7 +1,12 @@
-.slick-track {
-  display: flex !important;
+.slick-slide {
+  height: auto;
+  /* max-height: 274px; */
+  margin-right: 10px;
 }
 
-.slick-slide {
-  height: inherit !important;
+.slick-track {
+  display: flex !important;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
 }
