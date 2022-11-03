@@ -145,6 +145,7 @@ class Jclo_Carousel {
         $jclo_slides_to_show = get_post_meta($post->ID, 'jclo-slides-to-show', true);
         $jclo_slides_dots = get_post_meta($post->ID, 'jclo-slides-dots', true);
         $jclo_slides_autoplay = get_post_meta($post->ID, 'jclo-slides-autoplay', true);
+        $jclo_theme_color = get_post_meta($post->ID, 'jclo-theme-color', true);
         echo self::jclo_fields( 'jclo-images', $jclo_images ); 
 
         // other fields
@@ -166,6 +167,10 @@ class Jclo_Carousel {
                 <option value="true" <?php echo $jclo_slides_dots === 'true' ? 'selected' : '' ?>>True</option>
                 <option value="false" <?php echo $jclo_slides_dots === 'false' ? 'selected' : '' ?>>False</option>
             </select>
+        </div>
+        <div class="form-group">
+            <label for="jclo-theme-color">Theme color</label>
+            <input class="form-control" type="color" value="<?php echo $jclo_theme_color ? $jclo_theme_color : '' ?>" name="jclo-theme-color" id="jclo-theme-color"/>
         </div>
         
         <?php
@@ -194,11 +199,12 @@ class Jclo_Carousel {
             return; 
         }
 
-        if( isset( $_POST['jclo-images'] ) || isset( $_POST['jclo-slides-to-show'] ) || isset( $_POST['jclo-slides-dots'] ) || isset( $_POST['jclo-slides-autoplay'] ) ){
+        if( isset( $_POST['jclo-images'] ) || isset( $_POST['jclo-slides-to-show'] ) || isset( $_POST['jclo-slides-dots'] ) || isset( $_POST['jclo-slides-autoplay'] ) || isset( $_POST['jclo-theme-color'] ) ){
             update_post_meta( $post_id, 'jclo-images', $_POST['jclo-images'] );
             update_post_meta( $post_id, 'jclo-slides-to-show', $_POST['jclo-slides-to-show'] );
             update_post_meta( $post_id, 'jclo-slides-dots', $_POST['jclo-slides-dots'] );
             update_post_meta( $post_id, 'jclo-slides-autoplay', $_POST['jclo-slides-autoplay'] );
+            update_post_meta( $post_id, 'jclo-theme-color', $_POST['jclo-theme-color'] );
         }
     }
 }

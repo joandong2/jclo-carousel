@@ -29,6 +29,7 @@ class Jclo_Carousel_Shortcode {
         $jclo_slides_to_show = get_post_meta($post->ID, 'jclo-slides-to-show', true);
         $jclo_slides_dots = get_post_meta($post->ID, 'jclo-slides-dots', true);
         $jclo_slides_autoplay = get_post_meta($post->ID, 'jclo-slides-autoplay', true);
+        $jclo_theme_color = get_post_meta($post->ID, 'jclo-theme-color', true);
 
         $images = explode(',', $jclo_images);
     
@@ -43,6 +44,13 @@ class Jclo_Carousel_Shortcode {
         }
 
         ?>
+
+        <style type="text/css">
+            .slick-prev:before, 
+            .slick-next:before {
+                color: <?php echo $jclo_theme_color; ?>
+            }
+        </style>
 
         <script type="text/javascript">
             jQuery(document).ready(function($){
