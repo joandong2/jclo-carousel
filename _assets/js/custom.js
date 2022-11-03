@@ -1,3 +1,4 @@
+// MULTIPLE IMAGE UPLOADER:  https://stackoverflow.com/questions/36961192/wordpress-custom-meta-box-multiple-image-upload
 jQuery(function ($) {
   $("body").on("click", ".wc_multi_upload_image_button", function (e) {
     e.preventDefault();

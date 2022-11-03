@@ -150,7 +150,7 @@ class Jclo_Carousel {
         // other fields
         ?>
         <div class="form-group">
-            <label for="jclo-slides-to-show">No of slides</label>
+            <label for="jclo-slides-to-show">No of slides to show</label>
             <input class="form-control" type="number" value="<?php echo $jclo_slides_to_show ? $jclo_slides_to_show : '' ?>" name="jclo-slides-to-show" id="jclo-slides-to-show"/>
         </div>
         <div class="form-group">
